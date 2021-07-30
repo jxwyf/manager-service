@@ -35,7 +35,7 @@ module.exports = {
             code,data,msg
         }
     },
-    success(data='',msg='',code=CODE.PARAM_ERROR){
+    fail(data='',msg='',code=CODE.PARAM_ERROR){
         log4js.debug(msg);
         return{
             code,data,msg

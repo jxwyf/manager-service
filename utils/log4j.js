@@ -21,7 +21,7 @@
              filename: 'logs/all-logs.log'
          },
          error:{
-            type: 'dataFile',
+            type: 'dateFile',
             filename: 'logs/log',
             pattern:'yyyy-MM-dd.log',
             alwaysIncludePattern:true // 设置文件名称为 filename + pattern
