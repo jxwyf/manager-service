@@ -8,6 +8,9 @@ const logger = require('koa-logger')
 
 const log4js = require('./utils/log4j') 
 const users = require('./routes/users')
+const jwt = require('jsonwebtoken')
+const koajwt = require('koa-jwt')
+
 
 const router = require('koa-router')()
 
@@ -35,11 +38,20 @@ app.use(views(__dirname + '/views', {
 app.use(async (ctx, next) => {
   log4js.info(`get params:${JSON.stringify(ctx.request.query )}`)
   log4js.info(`post params:${JSON.stringify( ctx.request.body)}`)
-  await next()
+  await next().catch((err)=>{
+    if(err.status == '401'){
+      ctx.status = 200;
+      ctx.body = util.fail('Token认证失败',util.CODE.AUTH_ERROR);
+    }else{
+      throw err;
+    }
+  })
  
 })
-
-
+//拦截
+app.use(koajwt({secret:'lwq'}).unless({
+  path:[/^\/api\/users\/login/]
+}))
 //一级路由
 router.prefix("/api")
 
